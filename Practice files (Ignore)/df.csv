@@ -1,0 +1,93 @@
+DataFrame Functions:
+
+pd.DataFrame(): Creates a new DataFrame from various inputs like arrays, lists, dictionaries, or other DataFrames.
+pd.concat(): Concatenates DataFrames along a specified axis.
+pd.merge(): Merges two DataFrames based on a common column or index.
+pd.pivot_table(): Creates a pivot table from a DataFrame.
+pd.melt(): Unpivots a DataFrame from wide to long format.
+pd.crosstab(): Computes a cross-tabulation table.
+
+
+DataFrame Methods:
+
+Indexing and Selection:
+
+.loc[]: Accesses a group of rows and columns by label(s).
+.iloc[]: Accesses a group of rows and columns by integer position(s).
+.at[]: Accesses a single value using label(s).
+.iat[]: Accesses a single value using integer position(s).
+.head(n): Returns the first n rows of the DataFrame.
+.tail(n): Returns the last n rows of the DataFrame.
+
+
+Data Cleaning and Manipulation:
+
+.drop(): Removes specified rows or columns.
+.fillna(): Fills missing values with the given value.
+.isna(): Returns a DataFrame of booleans indicating missing values.
+.dropna(): Drops rows with missing values.
+.sort_values(): Sorts the DataFrame by specified column(s).
+.rename(): Renames columns or index.
+
+
+Data Aggregation and Transformation:
+
+.groupby(): Groups data based on a specified column or multiple columns.
+.agg(): Applies an aggregation function to grouped data.
+.apply(): Applies a function along the specified axis (rows or columns).
+.transform(): Applies a function to grouped data and broadcasts the results.
+
+
+Data Visualization:
+
+.plot(): Generates various types of plots using Matplotlib or another backend.
+
+
+DataFrame Attributes:
+
+.index: The row labels of the DataFrame.
+.columns: The column labels of the DataFrame.
+.shape: Tuple representing the dimensions (rows, columns) of the DataFrame.
+.dtypes: Returns a Series with the data type of each column.
+.values: Numpy representation of the DataFrame's data.
+.size: Number of elements in the DataFrame.
+.empty: True if DataFrame is empty.
+
+
+DataFrame Methods:
+
+Data Summarization:
+
+.sum(): Computes the sum of values for each column.
+.mean(): Computes the mean of values for each column.
+.median(): Computes the median of values for each column.
+.min(), .max(): Computes the minimum and maximum values for each column.
+.count(): Counts non-null values for each column.
+.value_counts(): Returns a Series of unique values and their counts.
+
+
+Data Reshaping:
+
+.pivot(): Reshapes data from long to wide format using unique values as columns.
+.stack(): Pivots the columns into rows, creating a MultiIndex DataFrame.
+.unstack(): Pivots the index levels into columns.
+
+
+Data Merging and Joining:
+
+.join(): Joins two DataFrames on their indexes.
+.concat(): Concatenates DataFrames along a specified axis.
+.merge(): Merges DataFrames based on common columns or indexes.
+
+
+Data Aggregation and Grouping:
+
+.groupby(): Groups data based on a specified column or multiple columns.
+.agg(): Applies multiple aggregation functions to grouped data.
+.pivot_table(): Creates a pivot table from a DataFrame.
+
+
+Data Cleaning and Transformation:
+
+.applymap(): Applies a function element-wise to the entire DataFrame.
+.map(), .replace(): Applies mapping or replacement to specific columns.

@@ -1,0 +1,55 @@
+import pandas as pd
+
+# Reading CSV Data
+df = pd.read_csv("data.csv")  # Replace "data.csv" with the path to your CSV file
+
+# Writing CSV Data
+df.to_csv("output.csv", index=False)  # Replace "output.csv" with the desired output file path
+
+# DataFrame Attributes
+print("DataFrame Index:", df.index)
+print("DataFrame Columns:", df.columns)
+print("DataFrame Shape:", df.shape)
+print("DataFrame Data Types:", df.dtypes)
+print("DataFrame Values:", df.values)
+print("DataFrame Size:", df.size)
+print("Is DataFrame Empty?", df.empty)
+
+# DataFrame Methods
+print("First 5 rows:\n", df.head())
+print("Last 5 rows:\n", df.tail())
+df.info()
+print("Descriptive Statistics:\n", df.describe())
+
+# Dropping Rows or Columns
+df.drop(labels=[1, 3], axis=0, inplace=True)  # Drop rows with index 1 and 3
+df.drop(columns=["column1", "column2"], inplace=True)  # Drop columns named "column1" and "column2"
+
+# Grouping Data
+grouped_df = df.groupby(by="group_column")
+
+# Merging DataFrames
+merged_df = df1.merge(df2, how="inner", on="common_column")
+
+# Applying Functions
+def custom_function(x):
+    return x * 2
+
+df["new_column"] = df["old_column"].apply(custom_function)
+
+# Handling Missing Values
+df.fillna(0, inplace=True)  # Fill missing values with 0
+missing_values_df = df.isna()  # DataFrame of booleans indicating missing values
+df.dropna(axis=0, how="any", inplace=True)  # Drop rows with any missing values
+
+# Sorting Data
+df.sort_values(by="sort_column", ascending=True, inplace=True)
+
+# Renaming Columns
+df.rename(columns={"old_column_name": "new_column_name"}, inplace=True)
+
+# Pivot Table
+pivot_table_df = df.pivot_table(values="value_column", index="index_column", columns="columns_column", aggfunc="mean")
+
+# Plotting Data
+df.plot()
