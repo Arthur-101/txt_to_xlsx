@@ -5,19 +5,21 @@
 
 1.  Introduction
 2.  Project Overview
-3.  Installation
-4.  Usage
-5.  File Structure
-6.  Libraries Used
-7.  Project Workflow
-8.  Data Processing
-9.  Data Analysis
-10. Output
-11. Conclusion
-12. Contributors
+3.  Requirements
+4.  Installation
+5.  Usage
+6.  File Structure
+7.  Dependencies
+8.  Project Workflow
+9.  Data Processing
+10.  Data Analysis
+11. Output
+12.  Contributors
+13. Conclusion
 
 
-#   1. INTRODUCTIONThis documentation provides an overview of the Filter_X and Filter_XII Python scripts, which are part of a project aimed at processing and analyzing text data from student results and saving the results in an Excel file. These scripts are designed to extract, clean, and analyze data for classes X and XII, respectively.
+#   1. INTRODUCTION
+This documentation provides an overview of the Filter_X and Filter_XII Python scripts, which are part of a project aimed at processing and analyzing text data from student results and saving the results in an Excel file. These scripts are designed to extract, clean, and analyze data for classes X and XII, respectively.
 
 
 #    2. PROJECT OVERVIEW
