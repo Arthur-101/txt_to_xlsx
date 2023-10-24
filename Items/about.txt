@@ -1,0 +1,42 @@
+**Project: Class Data Processor**
+
+*Version: 1.0*
+
+**Description:**
+The Class Data Processor is a Python application that streamlines the management of
+Class X and Class XII student data. It extracts relevant information from text files,
+processes the data, and generates comprehensive Excel reports.
+This project is organized into three main Python files:
+
+- `Filter_X.py`: Handles the data processing and analysis for Class X students.
+- `Filter_XII.py`: Manages the data operations for Class XII students.
+- `Main.py`: Provides a user-friendly GUI to access the functionality of the first two files.
+
+**Features:**
+- Data extraction and transformation from text files.
+- Calculation of student percentages, grade distributions, and subject-wise highest scores.
+- Generation of Excel reports with separate sheets for different data analysis results.
+- A user-friendly GUI powered by Tkinter for easy interaction.
+
+**Developer:**
+Name: [Saurav Kumar]
+Class: [XII 'B']
+Email: [arthur14202000@gmail.com]
+GitHub: [Arthur-101]
+
+**Release Date:** [24-10-2023]
+
+**System Requirements:**
+- Python 3.x
+- Required Python libraries (Pandas, Openpyxl, etc.)
+
+**Acknowledgments:**
+- The Class Data Processor project uses various Python libraries and packages that have contributed
+to its functionality.
+
+**Changelog:**
+- Version 1.0 ([24-10-2023]): Initial release of the Class Data Processor.
+
+**Links:**
+- [Project GitHub Repository](https://github.com/Arthur-101/txt_to_xlsx)
+- [Documentation](https://github.com/Arthur-101/txt_to_xlsx/blob/main/README.md)
