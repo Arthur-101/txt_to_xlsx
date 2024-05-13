@@ -109,7 +109,7 @@ def result_tab(tab_,dafra):
     # Create a horizontal scrollbar for tree2 and placing it
     horizontal_scrollbar = ttk.Scrollbar(tab_, orient="horizontal", command=tree2.xview)
     tree2.configure(xscrollcommand=horizontal_scrollbar.set)
-    horizontal_scrollbar.place(relx=0.3, rely=0.9, relwidth=0.7, anchor="sw")
+    horizontal_scrollbar.place(relx=0.3, rely=0.912, relwidth=0.7, anchor="sw")
 
     # # Bind the mouse scroll event to both Treeviews
     # def on_mouse_scroll(event):
