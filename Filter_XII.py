@@ -192,28 +192,53 @@ class DataProcessor_XII:
             if all(self.commerce_df[col] == ""):
                 self.commerce_df.drop(columns=[col], inplace=True)
 
-        for col in self.pcm_df.columns:
-            if all(self.pcm_df[col] == ""):
-                self.pcm_df.drop(columns=[col], inplace=True)
         for col in self.pcb_df.columns:
             if all(self.pcb_df[col] == ""):
                 self.pcb_df.drop(columns=[col], inplace=True)
+        
+        # Creating a new DataFrame by removing all fields with Biology from Science df
+        self.pcm_df = self.science_df[self.science_df['Biology'] == ""]
+        self.pcm_df.reset_index(drop=True, inplace=True)
 
-        # Acessing all the data to find QPI
+        # Removing empty columns
+        for col in self.pcm_df.columns:
+            if all(self.pcm_df[col] == ""):
+                self.pcm_df.drop(columns=[col], inplace=True)
+
+
+        # for col in self.pcm_df.columns:
+        #     if all(self.pcm_df[col] == ""):
+        #         self.pcm_df.drop(columns=[col], inplace=True)
+
+
+        ####   QPI CALCULATIONS   ####
+        # find QPI of Science
         sum_science = self.science_df['Total Marks (Best 5)'].sum()
         len_science = len(self.science_df)
 
-        # Before summing the 'Total Marks (Best 5)' column in commerce_df
+        # find QPI of Commerce
         sum_commerce = self.commerce_df['Total Marks (Best 5)'].sum()
         len_commerce = len(self.commerce_df)
-        t_sub = 5
+
+        # find QPI of PCM
+        sum_pcm = self.pcm_df['Total Marks (Best 5)'].sum()
+        len_pcm = len(self.pcm_df)
+
+        # find QPI of PCB
+        sum_pcb = self.pcb_df['Total Marks (Best 5)'].sum()
+        len_pcb = len(self.pcb_df)
 
         # Finding QPI of PCM, PCB and Commerce :
+        t_sub = 5
         qpi_science = (sum_science / (len_science * t_sub)) 
         qpi_commerce = (sum_commerce /  (len_commerce * t_sub))
+        qpi_pcm = (sum_pcm / (len_pcm * t_sub))
+        qpi_pcb = (sum_pcb / (len_pcb * t_sub))
 
         self.qpi_science = qpi_science
         self.qpi_commerce = qpi_commerce
+        self.qpi_pcm = qpi_pcm
+        self.qpi_pcb = qpi_pcb
 
     def add_student_data(self, roll, gender, name, subject_codes, result, marks_grades):
         marks = []
@@ -418,6 +443,7 @@ class DataProcessor_XII:
         sheet = workbook.active
         sheet.title = 'Result'
 
+        # writing the headers
         sheet['A1'] = 'Date:-'
         sheet['A2'] = 'School Code'
         sheet['H1'] = 'Region:'
@@ -425,6 +451,7 @@ class DataProcessor_XII:
         sheet['B2'] = self.school_code
         sheet['I1'] = self.region
 
+        # merging the headers
         start_column = 'C'
         end_column = 'G'
         merged_cell = sheet[start_column + '3']
@@ -432,10 +459,12 @@ class DataProcessor_XII:
         sheet.merge_cells(f'{start_column}3:{end_column}3')
         sheet[f'{start_column}3'] = self.school_name
 
+        # writing the data
         for row in dataframe_to_rows(self.show_df, index=False, header=True):
             sheet.append(row)
         sheet.append([' '])
 
+        # adding the total counts
         start_row = 4
         end = sheet.max_row
         sheet['A'+str(end+2)] = 'Total Candidates :- '
@@ -473,6 +502,20 @@ class DataProcessor_XII:
         end = sheet_commerce.max_row
         sheet_commerce['A'+str(end+2)] = 'QPI : '
         sheet_commerce['B'+str(end+2)] = self.qpi_commerce
+        workbook.save(output_file)
+
+        workbook = load_workbook(output_file)
+        sheet_pcb = workbook['Biology']                 # For Biology
+        end = sheet_pcb.max_row
+        sheet_pcb['A'+str(end+2)] = 'QPI : '
+        sheet_pcb['B'+str(end+2)] = self.qpi_pcb
+        workbook.save(output_file)
+
+        workbook = load_workbook(output_file)
+        sheet_pcm = workbook['Maths']                   # For Maths
+        end = sheet_pcm.max_row
+        sheet_pcm['A'+str(end+2)] = 'QPI : '
+        sheet_pcm['B'+str(end+2)] = self.qpi_pcm
         workbook.save(output_file)
 
     def save_analysis_to_excel(self, output_file):

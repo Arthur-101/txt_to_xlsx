@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk, font, Text, PhotoImage
+import customtkinter as ctk
 from PIL import Image, ImageTk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -9,8 +10,9 @@ from Filter_X import DataProcessor_X
 from Filter_XII import DataProcessor_XII
 
 # Creating a tkinter window
-root = tk.Tk()
-root.title("Class Data Processor")
+root = ctk.CTk()
+ctk.set_appearance_mode("light")
+root.title("Class Result Data Processor")
 root.iconbitmap('Items/logo.ico')
 window_width = root.winfo_screenwidth() - 15
 window_height = root.winfo_screenheight() - 40
@@ -19,7 +21,7 @@ root.geometry("{0}x{1}+0+0".format(window_width, window_height))  # Full screen
 # All Images:
 width1, height1 = 128, 128
 width2, height2 = 64, 64
-background_image = Image.open('Items/background1.png')
+# background_image = Image.open('Items/background1.png')
 back_image = PhotoImage(file='Items/back.png')
 next_image = PhotoImage(file='Items/next.png')
 main_image = PhotoImage(file='Items/main.png')
@@ -27,16 +29,16 @@ export_image = PhotoImage(file='Items/export.png')
 
 about = 'Items/about.txt'
 
-background_image = background_image.resize((window_width+15, window_height+15))
+# background_image = background_image.resize((window_width+15, window_height+15))
 back_image = back_image.subsample(back_image.width() // width1, back_image.height() // height1)
 next_image = next_image.subsample(next_image.width() // width1, next_image.height() // height1)
 main_image = main_image.subsample(main_image.width() // width2, main_image.height() // height2)
 export_image = export_image.subsample(export_image.width() // width2, export_image.height() // height2)
 
 # Background
-my_img=ImageTk.PhotoImage(background_image)
-my_label=tk.Label(root,image=my_img)
-my_label.place(x=-2, y=-2)
+# my_img=ImageTk.PhotoImage(background_image)
+# my_label=tk.Label(root,image=my_img)
+# my_label.place(x=-2, y=-2)
 
 def select_class(class_type):       # Function to select class X or XII
     if class_type == "X":
@@ -52,7 +54,7 @@ def result_tab(tab_,dafra):
     ##########################   TAB 2   #########################
     # Creating a frame for tree1 
     frame_tree1 = ttk.Frame(tab_,)
-    frame_tree1.place(relheight=0.9, relwidth=0.3, relx=0, rely=0)
+    frame_tree1.place(relheight=0.88, relwidth=0.3, relx=0, rely=0)
 
     # Creating a Treeview for the first 3 columns
     tree1 = ttk.Treeview(frame_tree1, columns=list(dafra.columns[:3]), show="headings")
@@ -109,7 +111,7 @@ def result_tab(tab_,dafra):
     # Create a horizontal scrollbar for tree2 and placing it
     horizontal_scrollbar = ttk.Scrollbar(tab_, orient="horizontal", command=tree2.xview)
     tree2.configure(xscrollcommand=horizontal_scrollbar.set)
-    horizontal_scrollbar.place(relx=0.3, rely=0.912, relwidth=0.7, anchor="sw")
+    horizontal_scrollbar.place(relx=0.3, rely=0.9, relwidth=0.7, anchor="sw")
 
     # # Bind the mouse scroll event to both Treeviews
     # def on_mouse_scroll(event):
@@ -260,23 +262,26 @@ def control_frame(root, tabview_, data_processor_):
     ########## Creating a control frame for buttons and instructions ##########
     global back_button, next_button
     
-    control_frame = tk.Frame(root, )
+    control_frame = ctk.CTkFrame(root, corner_radius=0)
     control_frame.place(relheight=0.1, relwidth=1, relx=0, rely=0.9)
     control_frame.grid_rowconfigure(0, weight=1)
 
     # Adding Buttons to control_frame
-    back_button = tk.Button(control_frame, image=back_image,
-            relief="flat", command= lambda: back_dataframe_button(tabview_), state=tk.DISABLED)
-    back_button.place(x=350, y=2, width= 100, height= 55,)
+    back_button = ctk.CTkButton(control_frame, text="back", font=("Open Sans", 22),
+            command= lambda: back_dataframe_button(tabview_), state="disabled")
+    back_button.place(relx=0.3, rely=0.05, relwidth=0.06, relheight=0.7)
 
-    next_button = tk.Button(control_frame, image=next_image, relief="flat", command= lambda: next_dataframe_button(tabview_))
-    next_button.place(x=850, y=2, width= 100, height= 55)
+    next_button = ctk.CTkButton(control_frame, text="next", font=("Open Sans", 22),
+            command= lambda: next_dataframe_button(tabview_), state="enabled")
+    next_button.place(relx=0.6, rely=0.05, relwidth=0.06, relheight=0.7)
 
-    main_win_button = tk.Button(control_frame, image=main_image, relief='flat', command=main_window_button)
-    main_win_button.place(x=100, y=10, width= 130, height= 60)
+    main_win_button = ctk.CTkButton(control_frame, text="Main", font=("Open Sans", 22),
+            command=main_window_button)
+    main_win_button.place(relx=0.1, rely=0.05, relwidth=0.06, relheight=0.7)
 
-    export_button = tk.Button(control_frame, image=export_image,relief="flat", command= lambda: export_to_excel(data_processor_))
-    export_button.place(x=1160, y=-20, width= 100, height= 100)
+    export_button = ctk.CTkButton(control_frame, text="Export", font=("Open Sans", 22),
+            command= lambda: export_to_excel(data_processor_))
+    export_button.place(relx=0.8, rely=0.05, relwidth=0.06, relheight=0.7)
 
 def import_file_x():
     global data_processor_X, tabview_x
@@ -488,23 +493,28 @@ def next_dataframe_button(tabview_class):
 
 def main_window_button():
     destroy_all_widgets(root)
-    my_label=tk.Label(root,image=my_img)
-    my_label.place(x=-2, y=-2)
+    # my_label=tk.Label(root,image=my_img)
+    # my_label.place(x=-2, y=-2)
     # Create buttons for selecting class X or XII
-    frame1 = tk.Frame(root, relief='sunken', borderwidth=5, background='#cecece')
-    frame1.place(x=500, y=200, width=340, height=320)
-    text1 = tk.Label(frame1, text="Select Class", font=font.Font(size=24, weight="bold"), borderwidth=3, relief='sunken',
-                background='#d9d9d9', foreground='#363737')
-    text1.place(x=78, y=50)
-    class_x_button = tk.Button(frame1, text=" Class X ", font=font.Font(size=16, weight="normal"), relief="groove",
-                command=lambda: select_class("X"), borderwidth=5, background='#d9d9d9')
-    class_x_button.place(x=100, y=100, width= 140, height= 70)
-    class_xii_button = tk.Button(frame1, text="Class XII", font=font.Font(size=16, weight="normal"), relief="groove",
-                command=lambda: select_class("XII"), borderwidth=5, background='#d9d9d9')
-    class_xii_button.place(x=100, y=180, width= 140, height= 70)
-    
-    about_button = tk.Button(frame1, text="❔", relief='groove', command=show_about)
-    about_button.place(x=300, y=285,)
+    # Create buttons for selecting class X or XII
+    frame1 = ctk.CTkFrame(root, )  
+    frame1.place(relx=0.35, rely=0.3, relheight=0.3, relwidth=0.3)
+
+    # Create a label
+    text1 = ctk.CTkLabel(frame1, text="Select Class", font=("Roboto", 24, "bold"), text_color="#363737")  
+    text1.place(relx=0.35, rely=0.1)
+
+    # Class X button
+    class_x_button = ctk.CTkButton(frame1, text=" Class X ", font=("Poppins", 20), command=lambda: select_class("X"))
+    class_x_button.place(relx=0.3, rely=0.3, relwidth=0.4, relheight=0.2)
+
+    # Class XII button
+    class_xii_button = ctk.CTkButton(frame1, text="Class XII", font=("Poppins", 20), command=lambda: select_class("XII"))
+    class_xii_button.place(relx=0.3, rely=0.6, relwidth=0.4, relheight=0.2)
+
+    # About button (smaller and styled properly)
+    about_window = ctk.CTkButton(frame1, text="❔", width=30, height=30, command=show_about,)
+    about_window.place(relx=0.88, rely=0.88, relwidth=0.1, relheight=0.1)
 
 def on_tab_change_x(event):
     # Get the currently selected tab
@@ -512,14 +522,14 @@ def on_tab_change_x(event):
     
     # Enable or disable the back and next buttons based on the current tab
     if current_tab == 0:
-        back_button.config(state=tk.DISABLED)
-        next_button.config(state=tk.NORMAL)
+        back_button.configure(state="disabled")
+        next_button.configure(state="enabled")
     elif current_tab == 6:
-        back_button.config(state=tk.NORMAL)
-        next_button.config(state=tk.DISABLED)
+        back_button.configure(state="enabled")
+        next_button.configure(state="disabled")
     else:
-        back_button.config(state=tk.NORMAL)
-        next_button.config(state=tk.NORMAL)
+        back_button.configure(state="enabled")
+        next_button.configure(state="enabled")
 
 def on_tab_change_xii(event):
     # Get the currently selected tab
@@ -527,14 +537,14 @@ def on_tab_change_xii(event):
     
     # Enable or disable the back and next buttons based on the current tab
     if current_tab == 0:
-        back_button.config(state=tk.DISABLED)
-        next_button.config(state=tk.NORMAL)
+        back_button.configure(state="disabled")
+        next_button.configure(state="enabled")
     elif current_tab == 10:
-        back_button.config(state=tk.NORMAL)
-        next_button.config(state=tk.DISABLED)
+        back_button.configure(state="enabled")
+        next_button.configure(state="disabled")
     else:
-        back_button.config(state=tk.NORMAL)
-        next_button.config(state=tk.NORMAL)
+        back_button.configure(state="enabled")
+        next_button.configure(state="enabled")
 
 def show_about():
     global about_window
@@ -572,21 +582,24 @@ def show_about():
         text_widget.config(state="disabled")
 
 # Create buttons for selecting class X or XII
-frame1 = tk.Frame(root, relief='sunken', borderwidth=5, background='#cecece')
-frame1.place(x=500, y=200, width=340, height=320)
-text1 = tk.Label(frame1, text="Select Class", font=font.Font(family='Segoe Print', size=24, weight="bold"), borderwidth=3, relief='sunken',
-            background='#d9d9d9', foreground='#363737')
-text1.place(x=78, y=50)
-class_x_button = tk.Button(frame1, text=" Class X ", font=font.Font(family='Segoe Print', size=16, weight="normal"), relief="groove",
-            command=lambda: select_class("X"), borderwidth=5, background='#d9d9d9')
-class_x_button.place(x=100, y=130, width= 140, height= 70)
-class_xii_button = tk.Button(frame1, text="Class XII", font=font.Font(family='Segoe Print', size=16, weight="normal"), relief="groove",
-            command=lambda: select_class("XII"), borderwidth=5, background='#d9d9d9')
-class_xii_button.place(x=100, y=210, width= 140, height= 70)
+frame1 = ctk.CTkFrame(root, )  
+frame1.place(relx=0.35, rely=0.3, relheight=0.3, relwidth=0.3)
 
-about_window = None  # Initialize about_window as None
-about_button = tk.Button(frame1, text="❔", relief='groove', command=show_about)
-about_button.place(x=300, y=285,)
+# Create a label
+text1 = ctk.CTkLabel(frame1, text="Select Class", font=("Roboto", 24, "bold"), text_color="#363737")  
+text1.place(relx=0.35, rely=0.1)
+
+# Class X button
+class_x_button = ctk.CTkButton(frame1, text=" Class X ", font=("Poppins", 20), command=lambda: select_class("X"))
+class_x_button.place(relx=0.3, rely=0.3, relwidth=0.4, relheight=0.2)
+
+# Class XII button
+class_xii_button = ctk.CTkButton(frame1, text="Class XII", font=("Poppins", 20), command=lambda: select_class("XII"))
+class_xii_button.place(relx=0.3, rely=0.6, relwidth=0.4, relheight=0.2)
+
+# About button (smaller and styled properly)
+about_window = ctk.CTkButton(frame1, text="❔", width=30, height=30, command=show_about,)
+about_window.place(relx=0.88, rely=0.88, relwidth=0.1, relheight=0.1)
 
 # Start the tkinter main loop
 root.mainloop()
