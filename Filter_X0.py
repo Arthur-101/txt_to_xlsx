@@ -152,9 +152,9 @@ class DataProcessor_X:
                     # Create a mapping dictionary for column renaming
         column_mapping = {
             '184': 'English', 'Grade_184': 'Grade English', '002': 'Hindi', 'Grade_002': 'Grade Hindi',
-            '119': 'Sanskrit', 'Grade_119': 'Grade Sanskrit', '041': 'Maths', 'Grade_041': 'Grade Maths',
+            '122': 'Sanskrit', 'Grade_122': 'Grade Sanskrit', '041': 'Maths', 'Grade_041': 'Grade Maths',
             '086': 'Science', 'Grade_086': 'Grade Science', '087': 'Social Science', 'Grade_087': 'Grade Social Science',
-            '417': 'AI', 'Grade_417': 'Grade AI'
+            '402': 'I.T.', 'Grade_402': 'Grade I.T.'
             }
                     # Renaming the columns based on the mapping dictionary
         self.show_df.rename(columns=column_mapping, inplace=True)
@@ -243,10 +243,10 @@ class DataProcessor_X:
     def calculate_subject_percentage_counts(self):
         # Counting the number of Students Subject wise:
         Subject_percentage_count_df = pd.DataFrame({'Sr. No.': [1, 2, 3, 4, 5, 6, 7],
-            'Subject Codes':['184', '002', '119', '041', '086', '087', '417'],
-            'Subject Name': ['English', 'Hindi', 'Sanskrit', 'Maths', 'Science', 'Social Science', 'AI']})
+            'Subject Codes':['184', '002', '122', '041', '086', '087', '402'],
+            'Subject Name': ['English', 'Hindi', 'Sanskrit', 'Maths', 'Science', 'Social Science', 'I.T.']})
 
-        sub_codes = ['184', '002', '119', '041', '086', '087', '417']
+        sub_codes = ['184', '002', '122', '041', '086', '087', '402']
 
         above_90 = []
         between_80_89 = []
@@ -318,10 +318,10 @@ class DataProcessor_X:
 
     def calculate_highest_marks_students(self):
         highest_marks_df = pd.DataFrame({'Sr. No.':[1,2,3,4,5,6,7],
-            'Subject Codes':['184', '002', '119', '041', '086', '087', '417'],
-            'Subject Name':['English', 'Hindi', 'Sanskrit', 'Maths', 'Science', 'Social Science', 'AI']})
+            'Subject Codes':['184', '002', '122', '041', '086', '087', '402'],
+            'Subject Name':['English', 'Hindi', 'Sanskrit', 'Maths', 'Science', 'Social Science', 'I.T.']})
 
-        sub_codes = ['184', '002', '119', '041', '086', '087', '417']
+        sub_codes = ['184', '002', '122', '041', '086', '087', '402']
 
         highest_marks_data = []
 
