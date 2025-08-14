@@ -358,6 +358,13 @@ def show_loaded_dataset(df, name):
     tab1 = tk.Frame(tabview_loaded)
     tabview_loaded.add(tab1, text=f"Dataset: {name}")
 
+    control_frame = ctk.CTkFrame(main_frame, corner_radius=0)
+    control_frame.place(relheight=0.1, relwidth=1, relx=0, rely=0.9)
+
+    main_win_button = ctk.CTkButton(control_frame, text="Main", font=("Open Sans", 22),
+                                    command=main_window_button)
+    main_win_button.place(relx=0.1, rely=0.05, relwidth=0.06, relheight=0.7)
+
     result_tab(tab1, df)  # df already includes 'Percentage' from DB if stored
 
 
