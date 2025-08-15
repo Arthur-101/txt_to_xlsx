@@ -33,6 +33,7 @@ next_image = PhotoImage(file='Items/next.png')
 main_image = PhotoImage(file='Items/main.png')
 export_image = PhotoImage(file='Items/export.png')
 about = 'Items/about.txt'
+about_window=None
 back_image = back_image.subsample(back_image.width() // width1, back_image.height() // height1)
 next_image = next_image.subsample(next_image.width() // width1, next_image.height() // height1)
 main_image = main_image.subsample(main_image.width() // width2, main_image.height() // height2)
@@ -287,13 +288,6 @@ def control_frame(root_widget, tabview_, data_processor_):
                                   command=lambda: export_to_excel(data_processor_))
     export_button.place(relx=0.8, rely=0.05, relwidth=0.06, relheight=0.7)
 
-    save_db_button = ctk.CTkButton(control_frame, text="Save to DB", font=("Open Sans", 22),
-                                   command=lambda: save_to_db_prompt(data_processor_))
-    save_db_button.place(relx=0.7, rely=0.05, relwidth=0.08, relheight=0.7)
-
-    load_button = ctk.CTkButton(control_frame, text="Load from DB", font=("Open Sans", 22),
-                                command=load_from_db_window)
-    load_button.place(relx=0.55, rely=0.05, relwidth=0.08, relheight=0.7)
 
 def save_to_db_prompt(df):
     dataset_name = simpledialog.askstring("Save Dataset", "Enter a name for this dataset:")
@@ -613,26 +607,114 @@ def next_dataframe_button(tabview_class):
 
 def main_window_button():
     destroy_all_widgets(root)
-    frame1 = ctk.CTkFrame(root)
-    frame1.place(relx=0.35, rely=0.3, relheight=0.3, relwidth=0.3)
 
-    text1 = ctk.CTkLabel(frame1, text="Select Class", font=("Roboto", 24, "bold"), text_color="#363737")
-    text1.place(relx=0.35, rely=0.1)
+    # Main frame
+    main_frame = ctk.CTkFrame(root, fg_color="#f8f9fa", corner_radius=0)
+    main_frame.place(relheight=1, relwidth=1, relx=0, rely=0)
 
-    class_x_button = ctk.CTkButton(frame1, text=" Class X ", font=("Poppins", 20),
-                                   command=lambda: select_class("X"))
-    class_x_button.place(relx=0.3, rely=0.3, relwidth=0.4, relheight=0.2)
+    title_frame = ctk.CTkFrame(main_frame, corner_radius=0, fg_color="#212529")
+    title_frame.place(relheight=0.1, relwidth=1, relx=0, rely=0)
 
-    class_xii_button = ctk.CTkButton(frame1, text="Class XII", font=("Poppins", 20),
-                                     command=lambda: select_class("XII"))
-    class_xii_button.place(relx=0.3, rely=0.6, relwidth=0.4, relheight=0.2)
+    title_label = ctk.CTkLabel(
+        title_frame,
+        text="DATA PROCESSOR",
+        font=("Roboto", 34, "bold"),
+        text_color="#ffffff",
+    )
+    title_label.place(relx= 0.4, rely= 0.3)
 
-    btn_view_data = ctk.CTkButton(root, text="View Stored Data", font=("Open Sans", 22),
-                                  command=load_from_db_window)
-    btn_view_data.place(relx=0.35, rely=0.65, relwidth=0.3, relheight=0.08)
+    # --- Left Side: Class Selection ---
+    left_frame = ctk.CTkFrame(main_frame, fg_color="#f8f9fa", corner_radius=0)
+    left_frame.place(relheight=1, relwidth=0.7, relx=0, rely=0.1)
 
-    about_window_btn = ctk.CTkButton(frame1, text="❔", width=30, height=30, command=show_about)
-    about_window_btn.place(relx=0.88, rely=0.88, relwidth=0.1, relheight=0.1)
+
+    float_frame= ctk.CTkFrame(left_frame, corner_radius=17, fg_color="#ced4da", 
+                              border_width=0)
+    float_frame.place(relheight=0.1, relwidth=0.7, relx=0.15, rely=0.01)
+
+    select_label = ctk.CTkLabel(
+        float_frame,
+        text="Select Class",
+        font=("Roboto", 28, "bold"),
+        text_color="#444"
+    )
+    select_label.place(relx = 0.4, rely= 0.3)
+
+    btn_x = ctk.CTkButton(
+        left_frame,
+        text="Class X",
+        font=("Poppins", 20, "bold"),fg_color="#7e8a95", hover_color="#495057",
+        command=lambda: select_class("X"),
+    )
+    btn_x.place(relx=0.39, rely=0.2, relheight= 0.16, relwidth=0.22)
+
+    btn_xii_old = ctk.CTkButton(
+        left_frame,
+        text="Class XII (Old)",
+        font=("Poppins", 20, "bold"), fg_color="#7e8a95", hover_color="#495057",
+        command=lambda: import_file_xii(old_version=True),
+    )
+    btn_xii_old.place(relx=0.26, rely=0.4, relheight= 0.16, relwidth=0.22)
+
+    btn_xii_new = ctk.CTkButton(
+        left_frame,
+        text="Class XII (New)",
+        font=("Poppins", 20, "bold"), fg_color="#7e8a95", hover_color="#495057",
+        command=lambda: import_file_xii(old_version=False),
+    )
+    btn_xii_new.place(relx=0.54, rely=0.4, relheight= 0.16, relwidth=0.22)
+
+    # About button
+    about_btn = ctk.CTkButton(
+        left_frame,
+        text="❔", fg_color="#7e8a95", hover_color="#495057",
+        command=show_about
+    )
+    about_btn.place(relx= 0.95, rely=0.85, relheight=0.03, relwidth=0.03)
+
+    # --- Right Side: Saved Datasets ---
+    right_frame = ctk.CTkFrame(main_frame,  corner_radius=10, fg_color="#ced4da")
+    right_frame.place(relheight=0.88, relwidth=0.295, relx=0.7, rely=0.11)
+
+    ds_label = ctk.CTkLabel(
+        right_frame,
+        text="Saved Datasets",
+        font=("Roboto", 28, "bold"),
+        text_color="#444"
+    )
+    ds_label.place(relx = 0.28, rely= 0.035)
+
+    # Dataset list with scrollbar
+    ds_frame = tk.Frame(right_frame)
+    ds_frame.place(relheight=0.89, relwidth=0.96, relx=0.02, rely=0.1)
+
+    scrollbar = tk.Scrollbar(ds_frame)
+    scrollbar.pack(side="right", fill="y")
+
+    dataset_listbox = tk.Listbox(
+        ds_frame,
+        font=("Arial", 14),
+        yscrollcommand=scrollbar.set, borderwidth=0,
+    )
+    dataset_listbox.pack(fill="both", expand=True)
+    scrollbar.config(command=dataset_listbox.yview)
+
+    # Populate datasets
+    datasets = list_datasets()
+    for d in datasets:
+        dataset_listbox.insert(tk.END, f"{d[0]} | {d[1]} | {d[2]}")
+
+    # Click-to-load
+    def on_load_from_list(event):
+        selection = dataset_listbox.curselection()
+        if selection:
+            line = dataset_listbox.get(selection[0])
+            ds_id = int(line.split("|")[0].strip())
+            df = load_dataframe(ds_id)
+            show_loaded_dataset(df, line)
+
+    dataset_listbox.bind("<Double-Button-1>", on_load_from_list)
+
 
 def on_tab_change_x(event):
     # Get the currently selected tab
@@ -699,25 +781,7 @@ def show_about():
         text_widget.insert("1.0", about_text)
         text_widget.config(state="disabled")
 
-# Create buttons for selecting class X or XII
-frame1 = ctk.CTkFrame(root, )  
-frame1.place(relx=0.35, rely=0.3, relheight=0.3, relwidth=0.3)
 
-# Create a label
-text1 = ctk.CTkLabel(frame1, text="Select Class", font=("Roboto", 24, "bold"), text_color="#363737")  
-text1.place(relx=0.35, rely=0.1)
-
-# Class X button
-class_x_button = ctk.CTkButton(frame1, text=" Class X ", font=("Poppins", 20), command=lambda: select_class("X"))
-class_x_button.place(relx=0.3, rely=0.3, relwidth=0.4, relheight=0.2)
-
-# Class XII button
-class_xii_button = ctk.CTkButton(frame1, text="Class XII", font=("Poppins", 20), command=lambda: select_class("XII"))
-class_xii_button.place(relx=0.3, rely=0.6, relwidth=0.4, relheight=0.2)
-
-# About button (smaller and styled properly)
-about_window = ctk.CTkButton(frame1, text="❔", width=30, height=30, command=show_about,)
-about_window.place(relx=0.88, rely=0.88, relwidth=0.1, relheight=0.1)
 
 # Start
 main_window_button()
