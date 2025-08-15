@@ -39,19 +39,19 @@ next_image = next_image.subsample(next_image.width() // width1, next_image.heigh
 main_image = main_image.subsample(main_image.width() // width2, main_image.height() // height2)
 export_image = export_image.subsample(export_image.width() // width2, export_image.height() // height2)
 
-def select_class(class_type):
-    if class_type == "X":
-        import_file_x()
-    elif class_type == "XII":
-        version = messagebox.askquestion(
-            "Select Version",
-            "Do you want the OLD version? (Click 'No' for NEW version)",
-            icon='question'
-        )
-        if version == "yes":
-            import_file_xii(old_version=True)
-        else:
-            import_file_xii(old_version=False)
+# def select_class(class_type):
+#     if class_type == "X":
+#         import_file_x()
+#     elif class_type == "XII":
+#         version = messagebox.askquestion(
+#             "Select Version",
+#             "Do you want the OLD version? (Click 'No' for NEW version)",
+#             icon='question'
+#         )
+#         if version == "yes":
+#             import_file_xii(old_version=True)
+#         else:
+#             import_file_xii(old_version=False)
 
 def destroy_all_widgets(root_widget):
     for widget in root_widget.winfo_children():
@@ -272,19 +272,19 @@ def control_frame(root_widget, tabview_, data_processor_):
     control_frame.place(relheight=0.1, relwidth=1, relx=0, rely=0.9)
     control_frame.grid_rowconfigure(0, weight=1)
 
-    back_button = ctk.CTkButton(control_frame, text="back", font=("Open Sans", 22),
+    back_button = ctk.CTkButton(control_frame, text="Back", font=("Open Sans", 22), fg_color="#7e8a95", hover_color="#495057",
                                 command=lambda: back_dataframe_button(tabview_), state="disabled")
     back_button.place(relx=0.3, rely=0.05, relwidth=0.06, relheight=0.7)
 
-    next_button = ctk.CTkButton(control_frame, text="next", font=("Open Sans", 22),
+    next_button = ctk.CTkButton(control_frame, text="Next", font=("Open Sans", 22), fg_color="#7e8a95", hover_color="#495057",
                                 command=lambda: next_dataframe_button(tabview_), state="enabled")
     next_button.place(relx=0.6, rely=0.05, relwidth=0.06, relheight=0.7)
 
-    main_win_button = ctk.CTkButton(control_frame, text="Main", font=("Open Sans", 22),
+    main_win_button = ctk.CTkButton(control_frame, text="Main", font=("Open Sans", 22), fg_color="#7e8a95", hover_color="#495057",
                                     command=main_window_button)
     main_win_button.place(relx=0.1, rely=0.05, relwidth=0.06, relheight=0.7)
 
-    export_button = ctk.CTkButton(control_frame, text="Export", font=("Open Sans", 22),
+    export_button = ctk.CTkButton(control_frame, text="Export", font=("Open Sans", 22), fg_color="#7e8a95", hover_color="#495057",
                                   command=lambda: export_to_excel(data_processor_))
     export_button.place(relx=0.8, rely=0.05, relwidth=0.06, relheight=0.7)
 
@@ -556,20 +556,20 @@ def import_file_xii(old_version=True):
                 btn_frame.place(relheight=0.1, relwidth=1, relx=0, rely=0.9)
 
                 main_win_button = ctk.CTkButton(btn_frame, text="Main", font=("Open Sans", 22),
-                                    command=main_window_button)
+                                   fg_color="#7e8a95", hover_color="#495057", command=main_window_button)
                 main_win_button.place(relx=0.1, rely=0.05, relwidth=0.06, relheight=0.7)
 
-                save_db_button = ctk.CTkButton(
-                    btn_frame, text="Save to DB",
+                save_db_button = ctk.CTkButton(btn_frame, text="Save to DB", font=("Open Sans", 22),
+                                    fg_color="#7e8a95", hover_color="#495057",
                     command=lambda: save_to_db_prompt(data_processor_XII.df_final)
                 )
-                save_db_button.place(relx=0.5, rely=0.05, relwidth=0.08, relheight=0.7)
+                save_db_button.place(relx=0.47, rely=0.05, relwidth=0.1, relheight=0.7)
 
-                export_button = ctk.CTkButton(
-                    btn_frame, text="Export",
+                export_button = ctk.CTkButton(btn_frame, text="Export", font=("Open Sans", 22),
+                                    fg_color="#7e8a95", hover_color="#495057",
                     command=lambda: export_new_version(data_processor_XII)
                 )
-                export_button.place(relx=0.9, rely=0.05, relwidth=0.06, relheight=0.7)
+                export_button.place(relx=0.85, rely=0.05, relwidth=0.06, relheight=0.7)
 
         except Exception as e:
             messagebox.showerror("Error", f"Wrong File Format!\n\n{e}")
@@ -644,13 +644,13 @@ def main_window_button():
         left_frame,
         text="Class X",
         font=("Poppins", 20, "bold"),fg_color="#7e8a95", hover_color="#495057",
-        command=lambda: select_class("X"),
+        command=lambda: import_file_x(),
     )
     btn_x.place(relx=0.39, rely=0.2, relheight= 0.16, relwidth=0.22)
 
     btn_xii_old = ctk.CTkButton(
         left_frame,
-        text="Class XII (Old)",
+        text="Class XII (v1.0)",
         font=("Poppins", 20, "bold"), fg_color="#7e8a95", hover_color="#495057",
         command=lambda: import_file_xii(old_version=True),
     )
@@ -658,7 +658,7 @@ def main_window_button():
 
     btn_xii_new = ctk.CTkButton(
         left_frame,
-        text="Class XII (New)",
+        text="Class XII (v2.0)",
         font=("Poppins", 20, "bold"), fg_color="#7e8a95", hover_color="#495057",
         command=lambda: import_file_xii(old_version=False),
     )
