@@ -1,42 +1,112 @@
-**Project: Class Data Processor**
+Project: Class Result Data Processor
+Version: 2.0
+Release Date: 15-08-2025
 
-*Version: 1.0*
+Overview
+The Class Result Data Processor is a Python application for extracting, transforming, analyzing, 
+and exporting student examination results for Class X and Class XII. 
+It parses raw text files, computes key metrics (including top-5 percentage for Class XII New), 
+and provides an intuitive desktop GUI for viewing, analyzing, saving to a SQLite database, and exporting to Excel.
 
-**Description:**
-The Class Data Processor is a Python application that streamlines the management of
-Class X and Class XII student data. It extracts relevant information from text files,
-processes the data, and generates comprehensive Excel reports.
-This project is organized into three main Python files:
+Key Modules
+- Filter_X.py: Processing and analysis pipeline for Class X datasets.
+- Filter_XII.py: “Old” format processing and multi-view analysis for Class XII (Science/PCM/PCB/Commerce).
+- Filter_XII_New.py: Robust, token-based parser for new Class XII result formats with automatic subject mapping and top-5 percentage calculation.
+- db_manager.py: SQLite persistence layer for saving and restoring complete result datasets, preserving exact column order and the final Percentage column.
+- Main.py: CustomTkinter-based desktop UI with a modernized layout, persistent datasets panel, and direct access to Class XII (Old/New) without popups.
 
-- `Filter_X.py`: Handles the data processing and analysis for Class X students.
-- `Filter_XII.py`: Manages the data operations for Class XII students.
-- `Main.py`: Provides a user-friendly GUI to access the functionality of the first two files.
+What’s New in 1.2
+- New XII Parser (Filter_XII_New.py)
+  - Flexible 2-line-per-student parser with subject-code detection.
+  - Supports AB and grade tokens; maps subject codes to readable names.
+  - Auto-calculates “Percentage” as top-5 subjects average (out of 500), appended as the last column.
 
-**Features:**
-- Data extraction and transformation from text files.
-- Calculation of student percentages, grade distributions, and subject-wise highest scores.
-- Generation of Excel reports with separate sheets for different data analysis results.
-- A user-friendly GUI powered by Tkinter for easy interaction.
+- Database Integration
+  - Save complete, wide-format DataFrames to SQLite with marks, Grade_ columns, and Percentage preserved.
+  - Reconstruct wide format on load with original column order restored and Percentage at the end.
+  - Improved resilience in load logic to handle casing, empty data, and column restoration.
 
-**Developer:**
-Name: [Saurav Kumar]
-Class: [XII 'B']
-Email: [arthur14202000@gmail.com]
-GitHub: [Arthur-101]
+- Modernized UI
+  - Two separate buttons for Class XII (Old) and Class XII (New) — no popup selection.
+  - Persistent “Saved Datasets” panel for quick double-click loading.
+  - Clean layout using header + sidebar + content + datasets panel.
+  - Consistent spacing, fonts, and button placement for better usability.
 
-**Release Date:** [24-10-2023]
+- Stability and UX
+  - Better error messages and safer operations when importing, saving, loading, and exporting.
+  - Defensive checks for malformed/empty inputs and database schema alignment.
 
-**System Requirements:**
-- Python 3.x
-- Required Python libraries (Pandas, Openpyxl, etc.)
+Core Features
+- Ingestion: Parse structured text files for Class X and XII (old/new formats).
+- Transformation: Create wide-format DataFrames with subject marks and Grade_ columns.
+- Analytics:
+  - Class X: Percentage bands, subject-wise distributions, highest scorers.
+  - Class XII (Old): Stream-wise views (Science/PCM/PCB/Commerce) and analytics.
+  - Class XII (New): Top-5 percentage auto-computation and clean mark/grade pairing.
+- Visualization: Ready-to-view analysis tables and pre-rendered charts in the GUI.
+- Export: One-click export to Excel (with sheets for data and analyses).
+- Persistence: Save and load datasets to/from SQLite with exact column order retention.
 
-**Acknowledgments:**
-- The Class Data Processor project uses various Python libraries and packages that have contributed
-to its functionality.
+How It Works
+1) Import a text file (Class X, Class XII Old, or Class XII New).
+2) The processor converts raw lines into a wide DataFrame:
+   - Columns: Roll, Gender, Name, subjects, Grade_subject columns, Percentage (last).
+3) Analyze and review results in the GUI (tables, charts).
+4) Save the dataset to SQLite or export to Excel.
+5) Load any saved dataset from the right-hand panel by double-clicking.
 
-**Changelog:**
-- Version 1.0 ([24-10-2023]): Initial release of the Class Data Processor.
+System Requirements
+- Python 3.10+ (recommended)
+- Libraries:
+  - pandas
+  - openpyxl
+  - pillow (PIL)
+  - customtkinter
+  - matplotlib
+  - sqlite3 (standard library)
 
-**Links:**
-- [Project GitHub Repository](https://github.com/Arthur-101/txt_to_xlsx)
-- [Documentation](https://github.com/Arthur-101/txt_to_xlsx/blob/main/README.md)
+Installation (Quick Start)
+1) Clone the repository.
+2) Create and activate a virtual environment.
+3) pip install -r requirements.txt
+4) Run: python Main.py
+
+File Outputs
+- Excel: Consolidated XLSX with result data and analysis sheets.
+- Database: results.db (SQLite) storing datasets metadata and result rows.
+
+Known Conventions
+- Class XII (New) Percentage = sum of top 5 subject marks / 500 * 100, rounded to 2 decimals.
+- “AB” (absent) marks are handled and excluded from numeric computations.
+- Grade columns are named “Grade_”.
+
+Developer
+Name: Saurav Kumar
+Email: arthur14202000@gmail.com
+GitHub: Arthur-101
+
+Acknowledgments
+This project leverages the Python ecosystem:
+- pandas, openpyxl, matplotlib, pillow
+- tkinter/customtkinter
+- sqlite3
+
+Changelog
+- Version 2.0 (15-08-2025)
+  - Added robust Class XII (New) parser with top-5 percentage calculation.
+  - Integrated full SQLite save/load preserving Percentage and column order.
+  - Redesigned main window (buttons for XII Old/New, persistent datasets panel).
+  - Improved error handling and data reconstruction on load.
+
+- Version 1.1 (Post 7-12-2023)
+  - UI refinements, additional validations, and export improvements.
+
+- Version 1.0 (24-10-2023)
+  - Initial release with Class X and Class XII (Old) parsing, analysis, and Excel export.
+
+Project Links
+- Repository: https://github.com/Arthur-101/txt_to_xlsx
+- Documentation: https://github.com/Arthur-101/txt_to_xlsx/blob/main/README.md
+
+Support
+For issues, feature requests, or contributions, please open a GitHub issue or contact the developer.
