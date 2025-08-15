@@ -15,7 +15,7 @@ Key Modules
 - db_manager.py: SQLite persistence layer for saving and restoring complete result datasets, preserving exact column order and the final Percentage column.
 - Main.py: CustomTkinter-based desktop UI with a modernized layout, persistent datasets panel, and direct access to Class XII (Old/New) without popups.
 
-What’s New in 1.2
+What’s New in 2.0
 - New XII Parser (Filter_XII_New.py)
   - Flexible 2-line-per-student parser with subject-code detection.
   - Supports AB and grade tokens; maps subject codes to readable names.
@@ -109,4 +109,7 @@ Project Links
 - Documentation: https://github.com/Arthur-101/txt_to_xlsx/blob/main/README.md
 
 Support
+
 For issues, feature requests, or contributions, please open a GitHub issue or contact the developer.
+
+❌YOU CAN DELETE AND RESET THE DATABASE BY RUNNIG THR `z_to_delete_db.py` FILE.❌
