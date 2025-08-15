@@ -110,7 +110,7 @@ def list_datasets():
     """
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, name, created_at FROM datasets ORDER BY created_at DESC")
+    cursor.execute("SELECT id, name, created_at FROM datasets ORDER BY created_at")
     rows = cursor.fetchall()
     conn.close()
     return rows
@@ -197,3 +197,4 @@ def load_dataframe(dataset_id):
         df_pivot = df_pivot.reindex(columns=current)
 
     return df_pivot.fillna("")
+
